@@ -1,0 +1,60 @@
+---
+title: "DP-Week3 Project"
+author: "Vidya Sankaran"
+date: "2 February 2018"
+output:
+  slidy_presentation: default
+  ioslides_presentation: default
+---
+
+
+## Web Page Presentation
+
+This is an R Markdown web page presentation. In this web page, plotly package shall be used to display graphs in 3D.  
+
+## Data Set
+
+iris dataset used for plotting
+
+- predictors : Sepal Length, Sepal Width, Petal length, Petal Width 
+
+- Response   : Species - factors of levels: setosa, versicol, virginica 
+
+
+## R Code for predicting
+
+```{r eval=FALSE}
+library(caret)
+library(plotly)
+library(ggplot2)
+library(dplyr)
+summary(iris)
+intrain <- createDataPartition(y=iris$Species, p = 0.70,list=FALSE)
+training <- iris[intrain,]
+testing <- iris[-intrain, ]
+
+plot(x=iris$Sepal.Length, y=iris$Sepal.Width,  col=iris$Species)
+modelfit <- train(Species~., data=iris, method="rf")
+modelfit
+predOut <- predict(modelfit, newdata=testing[, -5])
+predOut
+confusionMatrix(predOut, testing$Species)
+```
+
+
+```{r}
+library(plotly)
+library(ggplot2)
+
+```
+
+## Webpage with Plotly
+
+
+```{r, comment=""  }
+
+plot_ly(x=iris$Sepal.Length, y=iris$Sepal.Width, 
+        z=iris$Petal.Length, color=as.factor(iris$Species), mode="markers",
+        type="scatter3d", showlegend=TRUE)
+```
+
